@@ -13,12 +13,19 @@ namespace Tcd4
         /// </summary>
         static void Main()
         {
+            
+
+#if DEBUG
+            MainService.Proceso();
+#else
+            
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new Service1()
+                new Tcd4()
             };
             ServiceBase.Run(ServicesToRun);
+#endif
         }
     }
 }

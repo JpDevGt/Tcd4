@@ -1,6 +1,6 @@
 ﻿namespace Tcd4
 {
-    partial class Service1
+    partial class Tcd4
     {
         /// <summary> 
         /// Variable del diseñador necesaria.
@@ -28,8 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            // 
+            // Tcd4
+            // 
             components = new System.ComponentModel.Container();
-            this.ServiceName = "Service1";
+            this.ServiceName = "Tcd4";
+
         }
 
         #endregion

@@ -1,0 +1,9 @@
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\obj\Debug\Tcd4.csprojAssemblyReference.cache
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\obj\Debug\Tcd4.Tcd4.resources
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\obj\Debug\Tcd4.csproj.GenerateResource.cache
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\obj\Debug\Tcd4.csproj.CoreCompileInputs.cache
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\bin\Debug\Tcd4.exe.config
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\bin\Debug\Tcd4.exe
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\bin\Debug\Tcd4.pdb
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\obj\Debug\Tcd4.exe
+C:\Proyectos\Tcd4\CodigoFuente\Tcd4\Tcd4\obj\Debug\Tcd4.pdb
