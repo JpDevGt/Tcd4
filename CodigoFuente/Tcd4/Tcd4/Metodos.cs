@@ -11,8 +11,7 @@ namespace Tcd4
 {
     class Metodos
     {
-        private string dirOrigen = ConfigurationManager.AppSettings["Origen"].ToString();
-        private string dirDestino = ConfigurationManager.AppSettings["Destino"].ToString();
+        
         private SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["conString"].ConnectionString);
 
        
@@ -21,7 +20,7 @@ namespace Tcd4
 
         public static void validarArchivos()
         {
-            string dirOrigen = ConfigurationManager.AppSettings["Origen"].ToString() + DateTime.Today.ToString("yyyyMMdd");
+            string dirOrigen = ConfigurationManager.AppSettings["Origen"].ToString() + "\\" + DateTime.Today.ToString("yyyyMMdd");
 
             if (Directory.Exists(dirOrigen))
             {
@@ -32,7 +31,7 @@ namespace Tcd4
                 try
                 {
                     
-                    string strSQL = String.Format("Select distinct Archivo From Tx_Cd4 where convert(varchar, Fecha, 23) = '{0}' ", DateTime.Now.ToString("yyyy-MM-dd"));
+                    string strSQL = String.Format("Select distinct Archivo From Tx_Cd4 where Estado in (0,1) and convert(varchar, Fecha, 23) = '{0}' ", DateTime.Now.ToString("yyyy-MM-dd"));
                     cn.Open();
                     SqlCommand cmd = new SqlCommand(strSQL, cn);
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -52,8 +51,15 @@ namespace Tcd4
                 {
                     if(!archivoSubido(fi.Name, dt))
                     {
-                        cargarResultados(dirOrigen, fi.Name, fi.CreationTime.ToString("yyyy-MM-dd"));
-                        
+                        Boolean resultado = cargarResultados(dirOrigen, fi.Name, fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                        if (resultado)
+                        {
+                            moverArchivo(dirOrigen, fi.Name);
+                        }
+                        else
+                        {
+                            SetLog("Error", "Resultado no subido");
+                        }
                     }
                 }
                 
@@ -63,6 +69,37 @@ namespace Tcd4
 
         }
 
+
+        private static Boolean moverArchivo(string ruta, string nombre)
+        {
+            Boolean res = false;
+            string pathOrigenArchivo = ruta + "\\" + nombre;
+            string pathDestino = ConfigurationManager.AppSettings["Destino"].ToString() + "\\" + DateTime.Today.ToString("yyyyMMdd");
+
+
+
+            try
+            {
+                if (File.Exists(pathOrigenArchivo))
+                {
+                    if (!Directory.Exists(pathDestino))
+                    {
+                        Directory.CreateDirectory(pathDestino);
+                    }
+
+                    File.Move(pathOrigenArchivo, pathDestino + "\\" + nombre);
+                    res = true;
+                }
+                
+                             
+            }
+            catch (Exception ex)
+            {
+                SetLog("Error", "Error al mover archivo: " + ex.Message);
+            }
+            
+            return res;
+        }
 
         private static Boolean archivoSubido(String arch, DataTable dt)
         {
@@ -97,7 +134,7 @@ namespace Tcd4
                     string[] separador = new string[] { "\",\"", "\"" };
                     string[] datos = linea.Split(separador, StringSplitOptions.None);
 
-                    if (!datos[0].Equals(ConfigurationManager.AppSettings["Exclusion"].ToString()))
+                    if (!datos[1].Equals(ConfigurationManager.AppSettings["Exclusion"].ToString()))
                     {
                         Query = "INSERT INTO " + Tabla + "  "
                            + " ([Fecha] "
@@ -122,13 +159,12 @@ namespace Tcd4
                            + " ,[CD3_CD4-CD8-AbsCnt] "
                            + " ,[Ratio]) "
 
-                           + " VALUES ( "
-                           + fecha
-                           + ", " + nombre
-                           + ", " + datos[0]
-                           + ", " + datos[2]
-                           + ", " + datos[7]
-                           + ", " + datos[21]
+                           + " VALUES "
+                           + "( '" + fecha + "'"
+                           + ", '" + nombre + "'"
+                           + ", '" + datos[1] + "'"
+                           + ", '" + datos[3] + "'"
+                           + ", '" + datos[8] + "'"
                            + ", " + datos[22]
                            + ", " + datos[23]
                            + ", " + datos[24]
@@ -144,6 +180,7 @@ namespace Tcd4
                            + ", " + datos[34]
                            + ", " + datos[35]
                            + ", " + datos[36]
+                           + ", " + datos[37]
                            + ")";
 
                         DataTable dt = new DataTable();
@@ -195,7 +232,7 @@ namespace Tcd4
 
         public static void SetLog(string encabezado, string mensaje)
         {
-            string pathLog = ConfigurationManager.AppSettings["dirOrigen"].ToString();
+            string pathLog = ConfigurationManager.AppSettings["Log"].ToString();
 
             StreamWriter log;
             FileStream fileStream = null;
@@ -204,7 +241,7 @@ namespace Tcd4
 
             string logFilePath = pathLog;
 
-            logFilePath = logFilePath + "Log_" + System.DateTime.Today.ToString("yyyy-MM-dd").ToString();
+            logFilePath = logFilePath + "\\Log_" + System.DateTime.Today.ToString("yyyy-MM-dd").ToString();
             logFileInfo = new FileInfo(logFilePath);
             logDirInfo = new DirectoryInfo(logFileInfo.DirectoryName);
 

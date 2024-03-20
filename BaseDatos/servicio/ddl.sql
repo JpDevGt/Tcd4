@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[Tx_CD4](
 	[Archivo]	[varchar](200) NOT NULL,
 
 	[SampleID]	[varchar](50) NOT NULL,
-	[ExportDate] [varchar](50) NOT NULL,
+	[ExportDate] [datetime] NOT NULL,
 	[Worklist] [varchar](100) NOT NULL,
 
 	[LymphsAbsCnt] [int] NULL,
