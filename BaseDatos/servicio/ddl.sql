@@ -40,6 +40,7 @@ CREATE TABLE [dbo].[Tx_CD4](
 	   
 
 	[Estado] [int] NOT NULL,
+	[UsuarioMod] [varchar](50) NULL
 	[FechaMod] [datetime] NULL
  CONSTRAINT [PK_Id_Tx_CD4] PRIMARY KEY CLUSTERED 
 (

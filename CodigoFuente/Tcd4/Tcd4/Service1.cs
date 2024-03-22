@@ -18,8 +18,6 @@ namespace Tcd4
         public Tcd4()
         {
             InitializeComponent();
-
-           
         }
 
         protected override void OnStart(string[] args)

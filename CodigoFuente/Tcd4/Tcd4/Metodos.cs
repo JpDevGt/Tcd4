@@ -62,8 +62,12 @@ namespace Tcd4
                         }
                     }
                 }
-                
 
+
+            }
+            else
+            {
+                SetLog("Evento", "Directorio no encontrado");
             }
 
 
@@ -88,6 +92,8 @@ namespace Tcd4
                     }
 
                     File.Move(pathOrigenArchivo, pathDestino + "\\" + nombre);
+
+                    SetLog("Evento", "Archivo cambio de ubicacion a destino");
                     res = true;
                 }
                 
@@ -195,6 +201,8 @@ namespace Tcd4
                             SqlDataAdapter da = new SqlDataAdapter(cmd);
                             da.Fill(dt);
                             cn.Close();
+
+                            SetLog("Evento", "Resultado cargado con exito");
                             res = true;
                         }
                         catch (Exception ex)

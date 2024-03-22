@@ -12,6 +12,7 @@ namespace Tcd4
             //Metodos.SetLog("Prueba", "Mensaje de prueba");
 
             Metodos.validarArchivos();
+
         }
 
     }
